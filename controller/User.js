@@ -108,10 +108,10 @@ const ViewData = async(req,res)=>{
 
 }
 const deleteData = async(req,res)=>{
-    try {
-        const userId = req.params.userId
-        console.log(error);
-        return res.json({ status: 500, message: 'internal server message' })
-    }
+    // try {
+    //     const userId = req.params.userId
+    //     console.log(error);
+    //     return res.json({ status: 500, message: 'internal server message' })
+    // }
 }
 module.exports = { registration, login, Users, UpdateUser ,ViewData,deleteData}
