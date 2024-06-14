@@ -64,13 +64,47 @@ const login = async (req, res) => {
     }
 
 }
-const Users = async (req,res)=>{
+const Users = async (req, res) => {
     try {
-        const data = await  user.find()
-        return res.json({status:200,message:"all data display sucess",data})
+        const data = await user.find()
+        return res.json({ status: 200, message: "all data display sucess", data })
     } catch (error) {
         console.error(error);
         return res.json({ status: 500, message: "internal server error ", error });
     }
 }
-module.exports = { registration, login ,Users}
+const UpdateUser = async (req, res) => {
+    try {
+        const { name, email, Phone, password } = req.body;
+        const userId = req.params.userId;
+        console.log('useriddidid', userId);
+
+        const abc = await user.findByIdAndUpdate(
+            { _id: userId },
+            {
+                $set: {
+                    name: name,
+                    email: email,
+                    Phone: Phone,
+                    password: password
+                }
+            }
+        )
+        return res.json({ status: 200, message: 'Data update Successfully ' })
+    } catch (error) {
+        console.log(error);
+        return res.json({ status: 500, message: 'internal server message' })
+    }
+}
+const ViewData = async(req,res)=>{
+    try {
+        const userId = req.params.userId
+        const data = await user.findById({_id:userId})
+        return res.json({status:200,message:'display all data',data})
+    } catch (error) {
+        console.log(error);
+        return res.json({ status: 500, message: 'internal server message' })
+    }
+
+}
+module.exports = { registration, login, Users, UpdateUser ,ViewData}
