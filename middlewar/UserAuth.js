@@ -3,7 +3,9 @@ const { user } = require('../Models/User')
 const UserAuth = async (req, res, next) => {
   let token;
 
-  const { Authorization } = req.heders;
+  const { Authorization } = req.headers;
+  // const { authorization } = req.headers;
+
   console.log('Authorization=', Authorization);
   if (Authorization && Authorization.startsWidth('Bearer')) {
     token = Authorization.split(' ')[1]
