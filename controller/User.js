@@ -66,7 +66,7 @@ const login = async (req, res) => {
 }
 const Users = async (req, res) => {
     try {
-        const data = await user.find()
+        const data = await user.find({isDelete:false})
         return res.json({ status: 200, message: "all data display sucess", data })
     } catch (error) {
         console.error(error);
@@ -77,9 +77,7 @@ const UpdateUser = async (req, res) => {
     try {
         const { name, email, Phone, password } = req.body;
         const userId = req.params.userId;
-        console.log('useriddidid', userId);
-
-        const abc = await user.findByIdAndUpdate(
+        const data = await user.findByIdAndUpdate(
             { _id: userId },
             {
                 $set: {
@@ -90,28 +88,40 @@ const UpdateUser = async (req, res) => {
                 }
             }
         )
-        return res.json({ status: 200, message: 'Data update Successfully ' })
+        return res.json({ status: 200, message: 'Data update Successfully',data })
     } catch (error) {
         console.log(error);
         return res.json({ status: 500, message: 'internal server message' })
     }
 }
-const ViewData = async(req,res)=>{
+const ViewData = async (req, res) => {
     try {
         const userId = req.params.userId
-        const data = await user.findById({_id:userId})
-        return res.json({status:200,message:'display all data',data})
+        const data = await user.findById({ _id: userId })
+        return res.json({ status: 200, message: 'display all data', data })
     } catch (error) {
         console.log(error);
         return res.json({ status: 500, message: 'internal server message' })
     }
 
 }
-const deleteData = async(req,res)=>{
-    // try {
-    //     const userId = req.params.userId
-    //     console.log(error);
-    //     return res.json({ status: 500, message: 'internal server message' })
-    // }
+const deleteData = async (req, res) => {
+
+    try {
+        const userId = req.params.userId
+        console.log('userId-',userId);
+        await user.findByIdAndUpdate(
+            {_id:userId},
+            {
+                $set:{
+                    isDelete:true
+                }
+            }
+        )
+        return res.json({status:200,message:"Delete successfully"})
+    } catch (error) {
+        console.log(error);
+        return res.json({ status: 500, message: 'internal server message' })
+    }
 }
-module.exports = { registration, login, Users, UpdateUser ,ViewData,deleteData}
+module.exports = { registration, login, Users, UpdateUser, ViewData, deleteData }

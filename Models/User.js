@@ -24,6 +24,10 @@ const userSchema = new mongoose.Schema({
         type: Date,
         default: null,
     },
+    isDelete:{
+        type:Boolean,
+        default:false
+    }
 }, { timestamps: true })
 const user = mongoose.model('user', userSchema)
 module.exports = { user }
